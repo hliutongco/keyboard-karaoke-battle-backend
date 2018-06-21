@@ -53,8 +53,15 @@ io.on('connection', (client) => {
     }
   })
 
+  client.on('sendusername', function(username){
+    client.broadcast.emit('receiveusername', username)
+  })
+
+  client.on('senduserID', function(userID){
+    client.broadcast.emit('receiveuserID', userID)
+  })
+
   client.on('pressenter', function(data){
-    console.log("this is the server")
     client.broadcast.emit('pressenter', data)
     client.emit('pressenter', data)
   })
@@ -63,6 +70,14 @@ io.on('connection', (client) => {
     client.leave(data.song)
     client.broadcast.emit('countusers', false)
     client.emit('countusers', false)
+  })
+
+  client.on('updatescore', function(data){
+    client.broadcast.emit('receivescore', data)
+  })
+
+  client.on('updateletters', function(data){
+    client.broadcast.emit('receiveletters', data)
   })
 
   client.on('disconnect', () => {
